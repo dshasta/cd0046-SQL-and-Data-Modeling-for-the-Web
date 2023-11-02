@@ -2,23 +2,84 @@
 {% block title %}New Show Listing{% endblock %}
 {% block content %}
   <div class="form-wrapper">
-    <form method="post" class="form">
+    <form method="post" class="form" action="/shows/create">
       <h3 class="form-heading">List a new show</h3>
+
+      <!-- Artist Dropdown -->
       <div class="form-group">
-        <label for="artist_id">Artist ID</label>
-        <small>ID can be found on the Artist's Page</small>
-        {{ form.artist_id(class_ = 'form-control', autofocus = true) }}
+          <label for="artist_id" class="required">Artist</label>
+          <select name="artist_id" class="form-control">
+              {% if artists %}
+                  {% for artist in artists %}
+                      <option value="{{ artist.id }}">{{ artist.name }}</option>
+                  {% endfor %}
+              {% else %}
+                  <option>No artists listed</option>
+              {% endif %}
+          </select>
       </div>
+
+      <!-- Venue Dropdown -->
       <div class="form-group">
-        <label for="venue_id">Venue ID</label>
-        <small>ID can be found on the Venue's Page</small>
-        {{ form.venue_id(class_ = 'form-control', autofocus = true) }}
+          <label for="venue_id" class="required">Venue</label>
+          <select name="venue_id" class="form-control">
+              {% if venues %}
+                  {% for venue in venues %}
+                      <option value="{{ venue.id }}">{{ venue.name }}</option>
+                  {% endfor %}
+              {% else %}
+                  <option>No venues listed</option>
+              {% endif %}
+          </select>
       </div>
-      <div class="form-group">
-          <label for="start_time">Start Time</label>
-          {{ form.start_time(class_ = 'form-control', placeholder='YYYY-MM-DD HH:MM', autofocus = true) }}
-        </div>
-      <input type="submit" value="Create Venue" class="btn btn-primary btn-lg btn-block">
+
+      <!-- Date and Time Inputs -->
+      <div class="form-group" style="display: flex; justify-content: space-between;">
+        <label for="month" class="required">Month</label>
+        <select name="month" class="form-control inline-select" style="display: inline-block; width: auto;">
+            {% set months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] %}
+            {% for month_name in months %}
+                <option value="{{ loop.index }}">{{ month_name }}</option>
+            {% endfor %}
+        </select>
+        <label for="day" class="required">Day</label>
+        <select name="day" class="form-control inline-select" style="display: inline-block; width: auto;">
+          {% for day in range(1, 32) %}
+            <option value="{{ day }}">{{ day }}</option>
+          {% endfor %}
+        </select>
+        <label for="year" class="required">Year</label>
+        <select name="year" class="form-control inline-select" style="display: inline-block; width: auto;">
+          {% for year in range(2020, 2031) %}
+            <option value="{{ year }}">{{ year }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group" style="display: flex; justify-content: space-between;">
+        <label for="hour" class="required">Time</label>
+        <select name="hour" class="form-control inline-select" style="display: inline-block; width: auto;">
+          {% for hour in range(1, 13) %}
+            <option value="{{ hour }}">{{ hour }}</option>
+          {% endfor %}
+        </select>:
+        <select name="minute" class="form-control inline-select" style="display: inline-block; width: auto;">
+          {% for minute in range(0, 60, 5) %}
+            <option value="{{ minute }}">{{ "%02d" | format(minute) }}</option>
+          {% endfor %}
+        </select>
+        <select name="period" class="form-control inline-select" style="display: inline-block; width: auto;">
+          <option value="AM">AM</option>
+          <option value="PM">PM</option>
+        </select>
+      </div>
+
+      <!-- Submit Button -->
+      <input type="submit" value="Create Show" class="btn btn-primary btn-lg btn-block">
     </form>
   </div>
+
+  <!-- JavaScript for Date Handling -->
+  <!-- ... [the JavaScript code remains unchanged] ... -->
 {% endblock %}
+
+

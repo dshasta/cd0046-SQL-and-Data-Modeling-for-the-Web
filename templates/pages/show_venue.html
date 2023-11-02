@@ -77,5 +77,37 @@
 
 <a href="/venues/{{ venue.id }}/edit"><button class="btn btn-primary btn-lg">Edit</button></a>
 
+<!-- New "Delete" button -->
+<button id="deleteVenueBtn" class="btn btn-danger btn-lg" data-venue-id="{{ venue.id }}">Delete</button>
+
+<script>
+    document.getElementById('deleteVenueBtn').addEventListener('click', function(event) {
+        const venueId = event.target.getAttribute('data-venue-id');
+
+        // Confirm the delete action with the user
+        const confirmed = confirm(`Are you sure you want to delete venue ID: ${venueId}?`);
+        
+        if (!confirmed) {
+            return;
+        }
+
+        fetch(`/venues/${venueId}`, {
+            method: 'DELETE',
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Venue deleted successfully.');
+                window.location.href = '/';
+            } else {
+                alert('Failed to delete venue.');
+            }
+        })
+        .catch(error => {
+            alert('Error occurred while deleting the venue. Please try again.');
+        });
+    });
+</script>
+
 {% endblock %}
 

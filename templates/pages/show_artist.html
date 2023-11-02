@@ -9,11 +9,11 @@
 		<p class="subtitle">
 			ID: {{ artist.id }}
 		</p>
-		<div class="genres">
-			{% for genre in artist.genres %}
-			<span class="genre">{{ genre }}</span>
-			{% endfor %}
-		</div>
+        <div class="genres">
+            {% for genre in artist.genres %}
+            <span class="genre">{{ genre }}</span>
+            {% endfor %}
+        </div>
 		<p>
 			<i class="fas fa-globe-americas"></i> {{ artist.city }}, {{ artist.state }}
 		</p>
@@ -40,7 +40,7 @@
 		{% endif %}
 	</div>
 	<div class="col-sm-6">
-		<img src="{{ artist.image_link }}" alt="Venue Image" />
+		<img src="{{ artist.image_link }}" alt="Artist Image" />
 	</div>
 </div>
 <section>
@@ -73,6 +73,38 @@
 </section>
 
 <a href="/artists/{{ artist.id }}/edit"><button class="btn btn-primary btn-lg">Edit</button></a>
+
+<!-- New "Delete" button -->
+<button id="deleteArtistBtn" class="btn btn-danger btn-lg" data-artist-id="{{ artist.id }}">Delete</button>
+
+<script>
+    document.getElementById('deleteArtistBtn').addEventListener('click', function(event) {
+        const artistId = event.target.getAttribute('data-artist-id');
+
+        // Confirm the delete action with the user
+        const confirmed = confirm(`Are you sure you want to delete artist ID: ${artistId}?`);
+        
+        if (!confirmed) {
+            return;
+        }
+
+        fetch(`/artists/${artistId}`, {
+            method: 'DELETE',
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Artist deleted successfully.');
+                window.location.href = '/';
+            } else {
+                alert('Failed to delete artist.');
+            }
+        })
+        .catch(error => {
+            alert('Error occurred while deleting the artist. Please try again.');
+        });
+    });
+</script>
 
 {% endblock %}
 

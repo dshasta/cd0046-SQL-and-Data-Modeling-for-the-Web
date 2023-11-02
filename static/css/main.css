@@ -49,6 +49,11 @@ p.lead {
 
 /* Various other styles end */
 
+.required:after {
+    content:" *";
+    color: red;
+    font-weight: bold;
+}
 #front-splash {
 	width: 100%;
 }

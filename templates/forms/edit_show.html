@@ -1,0 +1,92 @@
+{% extends 'layouts/main.html' %}
+{% block title %}Edit Show{% endblock %}
+{% block content %}
+  <div class="form-wrapper">
+    <form method="post" class="form" action="/shows/{{ show.id }}/edit">
+      <h3 class="form-heading">Edit Show</h3>
+
+      <!-- Artist Dropdown -->
+      <div class="form-group">
+          <label for="artist_id" class="required">Artist</label>
+          <select name="artist_id" class="form-control" required>
+              {% if artists %}
+                  {% for artist in artists %}
+                      <option value="{{ artist.id }}" {% if show.artist_id == artist.id %}selected{% endif %}>{{ artist.name }}</option>
+                  {% endfor %}
+              {% else %}
+                  <option>No artists listed</option>
+              {% endif %}
+          </select>
+      </div>
+
+      <!-- Venue Dropdown -->
+      <div class="form-group">
+          <label for="venue_id" class="required">Venue</label>
+          <select name="venue_id" class="form-control" required>
+              {% if venues %}
+                  {% for venue in venues %}
+                      <option value="{{ venue.id }}" {% if show.venue_id == venue.id %}selected{% endif %}>{{ venue.name }}</option>
+                  {% endfor %}
+              {% else %}
+                  <option>No venues listed</option>
+              {% endif %}
+          </select>
+      </div>
+
+      <!-- Date and Time Inputs -->
+      <div class="form-group" style="display: flex; justify-content: space-between;">
+        <label for="month" class="required">Month</label>
+        <select name="month" class="form-control inline-select" style="display: inline-block; width: auto;" required>
+            {% set months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] %}
+            {% for month_name in months %}
+                <option value="{{ loop.index }}" {% if loop.index == show.month %}selected{% endif %}>{{ month_name }}</option>
+            {% endfor %}
+        </select>
+        <label for="day" class="required">Day</label>
+        <select name="day" class="form-control inline-select" style="display: inline-block; width: auto;" required>
+          {% for day in range(1, 32) %}
+            <option value="{{ day }}" {% if day == show.day %}selected{% endif %}>{{ day }}</option>
+          {% endfor %}
+        </select>
+        <label for="year" class="required">Year</label>
+        <select name="year" class="form-control inline-select" style="display: inline-block; width: auto;" required>
+          {% for year in range(2020, 2031) %}
+            <option value="{{ year }}" {% if year == show.year %}selected{% endif %}>{{ year }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Time Inputs -->
+      <div class="form-group" style="display: flex; justify-content: space-between;">
+        <label for="hour" class="required">Time</label>
+        <select name="hour" class="form-control inline-select" style="display: inline-block; width: auto;" required>
+          {% for hour in range(1, 13) %}
+            <option value="{{ hour }}" {% if hour == show.hour %}selected{% endif %}>{{ hour }}</option>
+          {% endfor %}
+        </select>:
+        <select name="minute" class="form-control inline-select" style="display: inline-block; width: auto;" required>
+          {% for minute in range(0, 60, 5) %}
+            <option value="{{ minute }}" {% if minute == show.minute %}selected{% endif %}>{{ "%02d" | format(minute) }}</option>
+          {% endfor %}
+        </select>
+        <select name="period" class="form-control inline-select" style="display: inline-block; width: auto;" required>
+          <option value="AM" {% if show.period == "AM" %}selected{% endif %}>AM</option>
+          <option value="PM" {% if show.period == "PM" %}selected{% endif %}>PM</option>
+        </select>
+      </div>
+
+      <!-- Submit Button -->
+      <input type="submit" value="Edit Show" class="btn btn-primary btn-lg btn-block">
+    </form>
+  </div>
+
+  <!-- JavaScript for Date Handling -->
+  <script>
+    // ... [existing script content]
+  </script>
+{% endblock %}
+
+
+
+ 
+

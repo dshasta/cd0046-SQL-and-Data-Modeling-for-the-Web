@@ -1,16 +1,33 @@
 {% extends 'layouts/main.html' %}
-{% block title %}Show Search{% endblock %}
+{% block title %}Shows{% endblock %}
 {% block content %}
 
-    <div class="page-header">
-        <h1>Fyyur Search!</h1>
-    </div>
-    <p class="lead"> Show Search </p>
+<div class="page-header">
+    <h1>Shows</h1>
+</div>
 
-    <ul class="nav nav-pills">
-        <li class="active"><a>Shows</a></li>
-    </ul>
-
-{#    Todo implement show search frontend #}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Venue</th>
+            <th>Artist</th>
+            <th>Start Time</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for show in shows %}
+        <tr>
+            <td>{{ show.venue.name }}</td>
+            <td>{{ show.artist.name }}</td>
+            <td>{{ show.start_time }}</td>
+            <td>
+                <a href="{{ url_for('edit_show', show_id=show.id) }}" class="btn btn-info">Edit</a>
+                <a href="{{ url_for('delete_show', show_id=show.id) }}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
 {% endblock %}
